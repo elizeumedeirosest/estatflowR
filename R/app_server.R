@@ -601,29 +601,25 @@
       codigo <- switch(
         aba_ativa,
         "Visão Geral" = paste(c(
-          "# ==============================================================================",
-          "# DIAGNÓSTICO ESTRUTURAL DOS DADOS - estatflowR",
-          "# ==============================================================================",
+          "# Diagnóstico estrutural dos dados",
           "",
-          "# 1. Estrutura e tipos de variáveis",
+          "# Estrutura e tipos de variáveis",
           sprintf("str(%s)", ds),
           "",
-          "# 2. Resumo descritivo geral",
+          "# Resumo descritivo geral",
           sprintf("summary(%s)", ds),
           "",
-          "# 3. Diagnóstico de valores ausentes (NAs)",
+          "# Diagnóstico de valores ausentes (NAs)",
           sprintf("colSums(is.na(%s))", ds)
         ), collapse = "\n"),
 
         "Variável Isolada" = {
           v <- input$sel_var_univariada %||% "var"
           paste(c(
-            "# ==============================================================================",
-            "# ANÁLISE UNIVARIADA - estatflowR",
-            "# ==============================================================================",
+            "# Análise univariada",
             "library(ggplot2)",
             "",
-            "# 1. Gráfico de distribuição com grade dupla",
+            "# Gráfico de distribuição com grade dupla",
             sprintf("ggplot(%s, aes(x = %s)) +", ds, v),
             "  geom_histogram(aes(y = after_stat(density)), bins = 25, fill = '#0071E3', color = 'white', alpha = 0.75) +",
             "  geom_density(color = '#1D1D1F', linewidth = 0.9) +",
@@ -631,7 +627,7 @@
             "  theme(panel.grid.major = element_line(color = 'grey85'),",
             "        panel.grid.minor = element_line(color = 'grey92', linetype = 'dotted'))",
             "",
-            "# 2. Teste de normalidade (Shapiro-Wilk)",
+            "# Teste de normalidade (Shapiro-Wilk)",
             sprintf("shapiro.test(%s$%s)", ds, v)
           ), collapse = "\n")
         },
@@ -640,12 +636,10 @@
           x <- input$sel_biv_x %||% "x"
           y <- input$sel_biv_y %||% "y"
           paste(c(
-            "# ==============================================================================",
-            "# ANÁLISE BIVARIADA - estatflowR",
-            "# ==============================================================================",
+            "# Análise bivariada",
             "library(ggplot2)",
             "",
-            "# 1. Gráfico de dispersão e tendência",
+            "# Gráfico de dispersão e tendência",
             sprintf("ggplot(%s, aes(x = %s, y = %s)) +", ds, x, y),
             "  geom_point(color = '#0071E3', alpha = 0.75, size = 2.5) +",
             "  geom_smooth(method = 'loess', color = '#FF9500', se = TRUE) +",
@@ -653,7 +647,7 @@
             "  theme(panel.grid.major = element_line(color = 'grey85'),",
             "        panel.grid.minor = element_line(color = 'grey92', linetype = 'dotted'))",
             "",
-            "# 2. Teste de correlação",
+            "# Teste de correlação",
             sprintf("cor.test(%s$%s, %s$%s, method = 'pearson')", ds, x, ds, y)
           ), collapse = "\n")
         },
@@ -662,14 +656,12 @@
           vars_vec <- input$sel_matriz_vars %||% c("var1", "var2")
           vars_str <- paste(sprintf("'%s'", vars_vec), collapse = ", ")
           paste(c(
-            "# ==============================================================================",
-            "# MATRIZ EXPLORATÓRIA MULTIVARIADA - estatflowR",
-            "# ==============================================================================",
+            "# Matriz exploratória multivariada",
             "",
-            "# 1. Diagrama de pares / dispersões",
+            "# Diagrama de pares / dispersões",
             sprintf("pairs(%s[, c(%s)], pch = 19, col = '#0071E3')", ds, vars_str),
             "",
-            "# 2. Matriz de correlações",
+            "# Matriz de correlações",
             sprintf("cor(%s[, c(%s)], use = 'complete.obs')", ds, vars_str)
           ), collapse = "\n")
         },
