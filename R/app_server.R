@@ -5,7 +5,7 @@
 #' Cria o Servidor (Server) do estatflowR
 #' @return Função server Shiny
 #' @noRd
-.criar_app_server <- function(dados_iniciais = NULL, nome_dataset_inicial = "dados") {
+.criar_app_server <- function(dados_iniciais = NULL, nome_dataset = "dados") {
 
   function(input, output, session) {
 
@@ -18,7 +18,7 @@
 
     rv <- shiny::reactiveValues(
       dados        = dados_padrao,
-      nome_dataset = if (!is.null(dados_iniciais)) nome_dataset_inicial else "dados_saude_exemplo"
+      nome_dataset = if (!is.null(dados_iniciais)) nome_dataset else "dados_saude_exemplo"
     )
 
     # ── MODAL DE UPLOAD DE ARQUIVOS ────────────────────────────────────────

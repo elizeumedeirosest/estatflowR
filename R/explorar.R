@@ -92,8 +92,8 @@ explorar <- function(dados = NULL,
   )
 
   app <- shiny::shinyApp(
-    ui = .criar_app_ui(dados_iniciais = dados, nome_dados = nome_dados),
-    server = .criar_app_server(dados_iniciais = dados, nome_dados = nome_dados)
+    ui = .criar_app_ui(dados_iniciais = dados, nome_dataset = nome_dados),
+    server = .criar_app_server(dados_iniciais = dados, nome_dataset = nome_dados)
   )
 
   if (requireNamespace("shiny", quietly = TRUE)) {
