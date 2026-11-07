@@ -1,0 +1,32 @@
+Package: estatflowR
+Title: Interface Visual e Estacao Interativa de Analise Exploratoria e Diagnostico Estatistico
+Version: 0.1.0
+Authors@R: person("Elizeu", "Medeiros", email = "elizeumedeirosest@gmail.com", role = c("aut", "cre"))
+Description: Fornece uma interface grafica intuitiva, elegante e minimalista baseada
+    em 'shiny' e 'bslib' para exploracao de dados, diagnosticos estatisticos, analise
+    univariada, comparacao entre grupos, matrizes exploratorias multivariadas e
+    graficos interativos 'plotly' com tema editorial de grade dupla e codigo R reproduzivel.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends:
+    R (>= 4.1.0)
+Imports:
+    shiny (>= 1.7.0),
+    bslib (>= 0.5.0),
+    ggplot2 (>= 3.4.0),
+    plotly (>= 4.10.0),
+    dplyr (>= 1.1.0),
+    patchwork (>= 1.1.0),
+    htmltools (>= 0.5.0),
+    DT (>= 0.28),
+    stats,
+    utils
+Suggests:
+    readxl,
+    arrow,
+    haven,
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/roxygen2/version: 8.0.0

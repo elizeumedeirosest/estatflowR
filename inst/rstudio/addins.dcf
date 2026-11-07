@@ -1,0 +1,4 @@
+Name: estatflowR: Explorar Dados Interativamente
+Description: Inicia a interface visual minimalista de analise exploratoria e diagnostico estatistico.
+Binding: explorar_addin
+Interactive: true
