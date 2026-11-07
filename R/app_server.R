@@ -600,20 +600,80 @@
 
       codigo <- switch(
         aba_ativa,
-        "Visão Geral" = sprintf("# Resumo do dataset e diagnóstico\nsummary(%s)\nestatR::validar_dados(%s)", ds, ds),
+        "Visão Geral" = paste(c(
+          "# ==============================================================================",
+          "# DIAGNÓSTICO ESTRUTURAL DOS DADOS - estatflowR",
+          "# ==============================================================================",
+          "",
+          "# 1. Estrutura e tipos de variáveis",
+          sprintf("str(%s)", ds),
+          "",
+          "# 2. Resumo descritivo geral",
+          sprintf("summary(%s)", ds),
+          "",
+          "# 3. Diagnóstico de valores ausentes (NAs)",
+          sprintf("colSums(is.na(%s))", ds)
+        ), collapse = "\n"),
+
         "Variável Isolada" = {
           v <- input$sel_var_univariada %||% "var"
-          sprintf("# Análise Univariada\nggplot(%s, aes(x = %s)) +\n  geom_histogram(bins = 20, fill = '#0071E3', color = 'white') +\n  geom_density() +\n  theme_minimal()\n\n# Teste de Normalidade\nshapiro.test(%s$%s)", ds, v, ds, v)
+          paste(c(
+            "# ==============================================================================",
+            "# ANÁLISE UNIVARIADA - estatflowR",
+            "# ==============================================================================",
+            "library(ggplot2)",
+            "",
+            "# 1. Gráfico de distribuição com grade dupla",
+            sprintf("ggplot(%s, aes(x = %s)) +", ds, v),
+            "  geom_histogram(aes(y = after_stat(density)), bins = 25, fill = '#0071E3', color = 'white', alpha = 0.75) +",
+            "  geom_density(color = '#1D1D1F', linewidth = 0.9) +",
+            "  theme_minimal() +",
+            "  theme(panel.grid.major = element_line(color = 'grey85'),",
+            "        panel.grid.minor = element_line(color = 'grey92', linetype = 'dotted'))",
+            "",
+            "# 2. Teste de normalidade (Shapiro-Wilk)",
+            sprintf("shapiro.test(%s$%s)", ds, v)
+          ), collapse = "\n")
         },
+
         "Relações & Grupos" = {
           x <- input$sel_biv_x %||% "x"
           y <- input$sel_biv_y %||% "y"
-          sprintf("# Gráfico Bivariado e Teste\nggplot(%s, aes(x = %s, y = %s)) +\n  geom_point(color = '#0071E3') +\n  geom_smooth(method = 'loess') +\n  theme_minimal()\n\n# Correlação\ncor.test(%s$%s, %s$%s)", ds, x, y, ds, x, ds, y)
+          paste(c(
+            "# ==============================================================================",
+            "# ANÁLISE BIVARIADA - estatflowR",
+            "# ==============================================================================",
+            "library(ggplot2)",
+            "",
+            "# 1. Gráfico de dispersão e tendência",
+            sprintf("ggplot(%s, aes(x = %s, y = %s)) +", ds, x, y),
+            "  geom_point(color = '#0071E3', alpha = 0.75, size = 2.5) +",
+            "  geom_smooth(method = 'loess', color = '#FF9500', se = TRUE) +",
+            "  theme_minimal() +",
+            "  theme(panel.grid.major = element_line(color = 'grey85'),",
+            "        panel.grid.minor = element_line(color = 'grey92', linetype = 'dotted'))",
+            "",
+            "# 2. Teste de correlação",
+            sprintf("cor.test(%s$%s, %s$%s, method = 'pearson')", ds, x, ds, y)
+          ), collapse = "\n")
         },
+
         "Matriz Exploratória" = {
-          vars_str <- paste(input$sel_matriz_vars %||% c("var1", "var2"), collapse = ", ")
-          sprintf("# Matriz de Pares / Correlações\npairs(%s[, c(%s)])", ds, vars_str)
+          vars_vec <- input$sel_matriz_vars %||% c("var1", "var2")
+          vars_str <- paste(sprintf("'%s'", vars_vec), collapse = ", ")
+          paste(c(
+            "# ==============================================================================",
+            "# MATRIZ EXPLORATÓRIA MULTIVARIADA - estatflowR",
+            "# ==============================================================================",
+            "",
+            "# 1. Diagrama de pares / dispersões",
+            sprintf("pairs(%s[, c(%s)], pch = 19, col = '#0071E3')", ds, vars_str),
+            "",
+            "# 2. Matriz de correlações",
+            sprintf("cor(%s[, c(%s)], use = 'complete.obs')", ds, vars_str)
+          ), collapse = "\n")
         },
+
         sprintf("# Código R para %s\nhead(%s)", ds, ds)
       )
 

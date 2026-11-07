@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 90" width="370" height="80">
+  <style>
+    .t-estat {
+      fill: #0f172a;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+      font-weight: 800;
+      font-size: 70px;
+      letter-spacing: -2px;
+    }
+    .t-flow {
+      fill: #475569;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+      font-weight: 800;
+      font-size: 70px;
+      letter-spacing: -2px;
+    }
+    .t-r {
+      fill: #0071e3;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Helvetica, Arial, sans-serif;
+      font-weight: 800;
+      font-size: 70px;
+      letter-spacing: -2px;
+    }
+    @media (prefers-color-scheme: dark) {
+      .t-estat { fill: #f8fafc; }
+      .t-flow  { fill: #94a3b8; }
+      .t-r     { fill: #0071e3; }
+    }
+  </style>
+  <text x="50%" y="68" text-anchor="middle">
+    <tspan class="t-estat">estat</tspan><tspan class="t-flow">flow</tspan><tspan class="t-r">R</tspan>
+  </text>
+</svg>
