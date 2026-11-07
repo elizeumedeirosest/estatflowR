@@ -9,10 +9,10 @@
 
   apple_theme <- bslib::bs_theme(
     version = 5,
-    bg = "#F5F5F7",
+    bg = "#FFFFFF",
     fg = "#1D1D1F",
     primary = "#0071E3",
-    secondary = "#86868B",
+    secondary = "#6E6E73",
     success = "#34C759",
     warning = "#FF9500",
     danger = "#FF3B30",
@@ -23,17 +23,9 @@
   bslib::page_navbar(
     theme = apple_theme,
     title = htmltools::tags$span(
-      htmltools::tags$svg(
-        style = "margin-right: 8px; vertical-align: -2px;",
-        width = "20", height = "20", viewBox = "0 0 24 24", fill = "none",
-        stroke = "#0071E3", strokeWidth = "2.2", strokeLinecap = "round", strokeLinejoin = "round",
-        htmltools::tags$path(d = "M3 3v18h18"),
-        htmltools::tags$path(d = "M18 17V9"),
-        htmltools::tags$path(d = "M13 17V5"),
-        htmltools::tags$path(d = "M8 17v-3")
-      ),
-      htmltools::tags$strong("estatflow", style = "letter-spacing: -0.02em; font-weight: 700;"),
-      htmltools::tags$span("R", style = "color: #0071E3; font-weight: 800;")
+      htmltools::tags$span("estat", style = "font-weight: 800; color: #1D1D1F; font-size: 1.25rem; letter-spacing: -0.5px;"),
+      htmltools::tags$span("flow", style = "font-weight: 800; color: #6E6E73; font-size: 1.25rem; letter-spacing: -0.5px;"),
+      htmltools::tags$span("R", style = "font-weight: 800; color: #0071E3; font-size: 1.25rem; letter-spacing: -0.5px;")
     ),
     id = "nav_principal",
     navbar_options = if (utils::packageVersion("bslib") >= "0.9.0") bslib::navbar_options(underline = TRUE) else NULL,
@@ -42,25 +34,26 @@
     header = htmltools::tags$head(
       htmltools::tags$link(rel = "stylesheet", href = "estatflowR/apple_style.css"),
       htmltools::tags$style(htmltools::HTML("
-        .navbar { background: rgba(255, 255, 255, 0.9) !important; backdrop-filter: blur(16px); }
-        .tab-content { padding-top: 1.25rem; }
+        body { background-color: #FFFFFF !important; }
+        .navbar { background: #FFFFFF !important; border-bottom: 1px solid #E5E5EA !important; }
+        .tab-content { padding-top: 1.25rem; background-color: #FFFFFF !important; }
       "))
     ),
 
-    # ── ABA 1: VISÃO GERAL DO BANCO ──────────────────────────────────────────
+    # ── ABA 1: VISÃO GERAL ───────────────────────────────────────────────────
     bslib::nav_panel(
       title = "Visão Geral",
       htmltools::div(
         class = "container-fluid",
 
-        # Top Bar: Seletor de Dataset ou Upload
+        # Top Bar: Identificação da Base e Upload
         htmltools::div(
           class = "apple-card",
-          style = "padding: 1rem 1.5rem; margin-bottom: 1.25rem;",
+          style = "padding: 0.85rem 1.25rem; margin-bottom: 1.25rem;",
           htmltools::div(
             class = "row align-items-center",
             htmltools::div(
-              class = "col-md-5",
+              class = "col-md-6",
               htmltools::div(
                 style = "display: flex; align-items: center; gap: 0.75rem;",
                 htmltools::tags$strong("Banco de Dados:"),
@@ -68,30 +61,26 @@
               )
             ),
             htmltools::div(
-              class = "col-md-7 text-end",
+              class = "col-md-6 text-end",
               shiny::actionButton(
                 "btn_abrir_upload", "Carregar Outro Arquivo...",
                 class = "btn-apple-secondary", icon = shiny::icon("upload")
-              ),
-              shiny::actionButton(
-                "btn_dados_demo", "Dados de Exemplo",
-                class = "btn-apple-secondary", icon = shiny::icon("database")
               )
             )
           )
         ),
 
-        # KPIs Rápidos do Dataset
+        # KPIs Estruturais da Base
         shiny::uiOutput("ui_kpis_dataset"),
 
-        # Tabela Inteligente de Variáveis
+        # Dicionário e Estrutura de Variáveis
         htmltools::div(
           class = "apple-card",
           htmltools::div(
             class = "apple-card-header",
             htmltools::div(
-              htmltools::h5(class = "apple-card-title", "Dicionário e Diagnóstico de Variáveis"),
-              htmltools::div(class = "apple-card-subtitle", "Identificação automática de tipos, preenchimento e estatísticas rápidas")
+              htmltools::h5(class = "apple-card-title", "Dicionário e Estrutura de Variáveis"),
+              htmltools::div(class = "apple-card-subtitle", "Identificação automática de tipos, dados ausentes e resumo estrutural")
             )
           ),
           DT::DTOutput("tab_diagnostico_vars")
@@ -99,9 +88,46 @@
       )
     ),
 
-    # ── ABA 2: VARIÁVEL ISOLADA (UNIVARIADA) ─────────────────────────────────
+    # ── ABA 2: RESUMO DESCRITIVO ─────────────────────────────────────────────
     bslib::nav_panel(
-      title = "Variável Isolada",
+      title = "Resumo Descritivo",
+      htmltools::div(
+        class = "container-fluid",
+
+        # Tabela 1: Estatísticas Descritivas Numéricas
+        htmltools::div(
+          class = "apple-card",
+          htmltools::div(
+            class = "apple-card-header",
+            htmltools::div(
+              htmltools::h5(class = "apple-card-title", "Estatísticas Descritivas — Variáveis Numéricas"),
+              htmltools::div(class = "apple-card-subtitle", "Média, desvio padrão, mediana, quartis, dispersão, assimetria e curtose")
+            )
+          ),
+          DT::DTOutput("tab_descritiva_numerica")
+        ),
+
+        # Tabela 2: Estatísticas Descritivas Categóricas (se houver)
+        shiny::uiOutput("ui_bloco_descritiva_categorica"),
+
+        # Tabela 3: Diagnóstico de Dados Ausentes (NAs)
+        htmltools::div(
+          class = "apple-card",
+          htmltools::div(
+            class = "apple-card-header",
+            htmltools::div(
+              htmltools::h5(class = "apple-card-title", "Diagnóstico de Dados Ausentes (NAs) por Variável"),
+              htmltools::div(class = "apple-card-subtitle", "Contagem de válidos, ausentes, proporção e classificação de integridade")
+            )
+          ),
+          DT::DTOutput("tab_diagnostico_nas")
+        )
+      )
+    ),
+
+    # ── ABA 3: ANÁLISE UNIVARIADA ────────────────────────────────────────────
+    bslib::nav_panel(
+      title = "Análise Univariada",
       htmltools::div(
         class = "container-fluid",
         htmltools::div(
@@ -111,9 +137,9 @@
             class = "col-lg-3 col-md-4",
             htmltools::div(
               class = "apple-card",
-              htmltools::h5(class = "apple-card-title", "Explorar Variável"),
-              htmltools::p(class = "apple-card-subtitle", "Foco em uma coluna do dataset"),
-              htmltools::hr(style = "margin: 0.75rem 0; border-color: #F0F0F2;"),
+              htmltools::h5(class = "apple-card-title", "Análise Univariada"),
+              htmltools::p(class = "apple-card-subtitle", "Inspeção detalhada de uma variável"),
+              htmltools::hr(style = "margin: 0.75rem 0; border-color: #E5E5EA;"),
               shiny::selectInput("sel_var_univariada", "Selecione a Variável:", choices = NULL),
               shiny::uiOutput("ui_controles_univariada")
             )
@@ -121,8 +147,8 @@
           # Painel Central de Gráficos e Diagnósticos
           htmltools::div(
             class = "col-lg-9 col-md-8",
-            # Cards KPI da variável
-            shiny::uiOutput("ui_kpis_univariada"),
+            # Tabela de Métricas Horizontais com Fundo Branco
+            shiny::uiOutput("ui_tabela_horizontal_univariada"),
             # Gráfico Principal
             htmltools::div(
               class = "apple-card",
@@ -131,18 +157,18 @@
                 htmltools::h5(class = "apple-card-title", shiny::textOutput("tit_grafico_univariada")),
                 shiny::uiOutput("ui_opcoes_graf_univariada")
               ),
-              plotly::plotlyOutput("plot_univariada", height = "420px")
+              plotly::plotlyOutput("plot_univariada", height = "440px")
             ),
-            # Diagnóstico de Normalidade (se numérica) ou Frequências (se categórica)
+            # Diagnóstico de Normalidade (Shapiro-Wilk & QQ-Plot) ou Frequências
             shiny::uiOutput("ui_diagnostico_univariada")
           )
         )
       )
     ),
 
-    # ── ABA 3: RELAÇÕES & GRUPOS (BIVARIADA) ─────────────────────────────────
+    # ── ABA 4: ANÁLISE BIVARIADA ─────────────────────────────────────────────
     bslib::nav_panel(
-      title = "Relações & Grupos",
+      title = "Análise Bivariada",
       htmltools::div(
         class = "container-fluid",
         htmltools::div(
@@ -152,9 +178,9 @@
             class = "col-lg-3 col-md-4",
             htmltools::div(
               class = "apple-card",
-              htmltools::h5(class = "apple-card-title", "Análise de Relações"),
-              htmltools::p(class = "apple-card-subtitle", "Comparações bivariadas e por grupos"),
-              htmltools::hr(style = "margin: 0.75rem 0; border-color: #F0F0F2;"),
+              htmltools::h5(class = "apple-card-title", "Análise Bivariada"),
+              htmltools::p(class = "apple-card-subtitle", "Relações entre pares e comparações de grupos"),
+              htmltools::hr(style = "margin: 0.75rem 0; border-color: #E5E5EA;"),
               shiny::selectInput("sel_biv_x", "Variável X (Eixo Horizontal):", choices = NULL),
               shiny::selectInput("sel_biv_y", "Variável Y (Eixo Vertical):", choices = NULL),
               shiny::selectInput("sel_biv_grupo", "Grupo / Cor (Opcional):", choices = c("Nenhum" = "")),
@@ -172,9 +198,9 @@
                 htmltools::h5(class = "apple-card-title", shiny::textOutput("tit_grafico_bivariada")),
                 shiny::uiOutput("ui_opcoes_graf_bivariada")
               ),
-              plotly::plotlyOutput("plot_bivariada", height = "430px")
+              plotly::plotlyOutput("plot_bivariada", height = "440px")
             ),
-            # Card de Teste Estatístico Associado
+            # Card de Diagnóstico e Testes Estatísticos
             htmltools::div(
               class = "apple-card",
               htmltools::div(
@@ -188,9 +214,9 @@
       )
     ),
 
-    # ── ABA 4: MATRIZ EXPLORATÓRIA (PAIRS PLOT) ──────────────────────────────
+    # ── ABA 5: ANÁLISE MULTIVARIADA ──────────────────────────────────────────
     bslib::nav_panel(
-      title = "Matriz Exploratória",
+      title = "Análise Multivariada",
       htmltools::div(
         class = "container-fluid",
         htmltools::div(
@@ -199,9 +225,9 @@
             class = "col-lg-3 col-md-4",
             htmltools::div(
               class = "apple-card",
-              htmltools::h5(class = "apple-card-title", "Matriz Multivariada"),
-              htmltools::p(class = "apple-card-subtitle", "Pairs Plot com densidade, dispersão e correlação"),
-              htmltools::hr(style = "margin: 0.75rem 0; border-color: #F0F0F2;"),
+              htmltools::h5(class = "apple-card-title", "Análise Multivariada"),
+              htmltools::p(class = "apple-card-subtitle", "Matriz Pairs Plot com densidade, dispersão e correlação"),
+              htmltools::hr(style = "margin: 0.75rem 0; border-color: #E5E5EA;"),
               shiny::selectizeInput(
                 "sel_matriz_vars", "Selecione de 2 a 6 Variáveis:",
                 choices = NULL, multiple = TRUE, options = list(maxItems = 6)

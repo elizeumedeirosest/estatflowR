@@ -9,39 +9,39 @@
 #' @param base_family Família da fonte (padrão Segoe UI ou sans-serif do sistema).
 #' @return Objeto de tema ggplot2.
 #' @noRd
-.tema_apple <- function(base_size = 11, base_family = "sans") {
+.tema_apple <- function(base_size = 13, base_family = "sans") {
   ggplot2::theme_minimal(base_size = base_size, base_family = base_family) +
     ggplot2::theme(
-      # Fundo limpo
+      # Fundo branco puro
       plot.background = ggplot2::element_rect(fill = "#FFFFFF", color = NA),
       panel.background = ggplot2::element_rect(fill = "#FFFFFF", color = NA),
 
-      # Grade Dupla Suave (Major e Minor)
-      panel.grid.major = ggplot2::element_line(color = "#E5E5EA", linewidth = 0.5),
-      panel.grid.minor = ggplot2::element_line(color = "#F2F2F7", linewidth = 0.3, linetype = "dotted"),
+      # Grade Suave de Alta Legibilidade
+      panel.grid.major = ggplot2::element_line(color = "#E5E5EA", linewidth = 0.55),
+      panel.grid.minor = ggplot2::element_line(color = "#F2F2F7", linewidth = 0.35, linetype = "dotted"),
 
-      # Eixos minimalistas
-      axis.line = ggplot2::element_line(color = "#C7C7CC", linewidth = 0.5),
-      axis.ticks = ggplot2::element_line(color = "#C7C7CC", linewidth = 0.4),
-      axis.text = ggplot2::element_text(color = "#3A3A3C", size = ggplot2::rel(0.88)),
-      axis.title = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = ggplot2::rel(0.95)),
+      # Eixos limpos e com fontes nítidas
+      axis.line = ggplot2::element_line(color = "#C7C7CC", linewidth = 0.6),
+      axis.ticks = ggplot2::element_line(color = "#C7C7CC", linewidth = 0.5),
+      axis.text = ggplot2::element_text(color = "#1D1D1F", size = 11),
+      axis.title = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = 12.5, margin = ggplot2::margin(t = 6, r = 6)),
 
       # Títulos e Subtítulos
-      plot.title = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = ggplot2::rel(1.15), margin = ggplot2::margin(b = 4)),
-      plot.subtitle = ggplot2::element_text(color = "#86868B", size = ggplot2::rel(0.92), margin = ggplot2::margin(b = 10)),
-      plot.caption = ggplot2::element_text(color = "#86868B", size = ggplot2::rel(0.75), margin = ggplot2::margin(t = 8)),
+      plot.title = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = 14, margin = ggplot2::margin(b = 6)),
+      plot.subtitle = ggplot2::element_text(color = "#6E6E73", size = 11.5, margin = ggplot2::margin(b = 10)),
+      plot.caption = ggplot2::element_text(color = "#86868B", size = 9.5, margin = ggplot2::margin(t = 8)),
 
       # Legenda elegante no topo
       legend.position = "top",
       legend.justification = "left",
-      legend.title = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = ggplot2::rel(0.85)),
-      legend.text = ggplot2::element_text(color = "#3A3A3C", size = ggplot2::rel(0.82)),
+      legend.title = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = 11),
+      legend.text = ggplot2::element_text(color = "#1D1D1F", size = 10.5),
       legend.background = ggplot2::element_blank(),
       legend.key = ggplot2::element_blank(),
 
       # Facetas
-      strip.background = ggplot2::element_rect(fill = "#F5F5F7", color = "#E5E5EA", linewidth = 0.5),
-      strip.text = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = ggplot2::rel(0.88), margin = ggplot2::margin(t = 4, b = 4))
+      strip.background = ggplot2::element_rect(fill = "#F8F9FA", color = "#E5E5EA", linewidth = 0.5),
+      strip.text = ggplot2::element_text(color = "#1D1D1F", face = "bold", size = 11, margin = ggplot2::margin(t = 4, b = 4))
     )
 }
 
@@ -83,12 +83,14 @@
         )
       ) |>
       plotly::layout(
-        font = list(family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"),
+        font = list(family = "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', 'Segoe UI', sans-serif", size = 12.5),
         hoverlabel = list(
           bgcolor = "#1D1D1F",
-          font = list(color = "#FFFFFF", family = "-apple-system, 'Segoe UI', sans-serif", size = 12),
+          font = list(color = "#FFFFFF", family = "-apple-system, 'SF Pro Text', sans-serif", size = 12.5),
           bordercolor = "transparent"
-        )
+        ),
+        xaxis = list(tickfont = list(size = 11.5), titlefont = list(size = 12.5)),
+        yaxis = list(tickfont = list(size = 11.5), titlefont = list(size = 12.5))
       )
   }, error = function(e) p)
 

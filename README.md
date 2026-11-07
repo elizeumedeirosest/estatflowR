@@ -83,10 +83,11 @@ explorar(mtcars, viewer = "pane")
 
 | Aba | Foco da Análise | Principais Recursos |
 |---|---|---|
-| **Visão Geral** | Diagnóstico Estrutural | KPIs de integridade, detecção de tipos, diagnóstico de NAs e resumo numérico |
-| **Variável Isolada** | Univariada | Histograma + KDE, Boxplot com jitter, QQ-Plot e teste de Shapiro-Wilk |
-| **Relações & Grupos** | Bivariada | Dispersão + tendência, correlação de Pearson/Spearman, comparações por grupo |
-| **Matriz Exploratória** | Multivariada | Pairs plot interativo com densidades, dispersões e correlações ponderadas |
+| **Visão Geral** | Diagnóstico Estrutural | Dimensões (linhas/colunas), composição de variáveis e integridade global |
+| **Resumo Descritivo** | Estatísticas Completas | Tabelas detalhadas para variáveis numéricas, categóricas e diagnóstico de NAs |
+| **Análise Univariada** | Inspeção Univariada | Tabela horizontal de métricas, Histograma + KDE, Boxplot com jitter, Shapiro-Wilk e QQ-Plot |
+| **Análise Bivariada** | Relações entre Pares | Dispersão com tendência LOESS, correlação (Pearson/Spearman) e testes entre grupos (Welch, ANOVA, Qui-quadrado) |
+| **Análise Multivariada** | Relações Multivariadas | Matriz Pairs Plot com densidades na diagonal, correlações e dispersões ponderadas |
 
 ---
 
